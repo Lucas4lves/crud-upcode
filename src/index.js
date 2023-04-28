@@ -15,11 +15,13 @@ app.use((req, res, next) =>{
 const sequelize = require("./db");
 
 const AlunoRoute = require("../routes/AlunoRoute");
+const TreinoRoute = require("../routes/TreinoRoute");
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use("/alunos", AlunoRoute);
+app.use("/treinos", TreinoRoute);
 
 const connect = async() =>{
     try {

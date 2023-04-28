@@ -3,7 +3,7 @@ const AlunoModel = require("../models/Aluno");
 class AlunoController {
     static async criarAluno(req, res)
     {
-        let {nome, peso, treinoId} = req.body;
+        let {nome, peso} = req.body;
 
         if(!nome){
             return res.status(400).json({err: true, msg: "O campo nome precisa ser preenchido!"})
@@ -11,14 +11,13 @@ class AlunoController {
         if(!peso){
             return res.status(400).json({err: true, msg: "O campo peso precisa ser preenchido!"})
         }
-        if(!treinoId){
-            return res.status(400).json({err: true, msg: "O campo treino precisa ser preenchido!"})
-        }
+        // if(!treinoId){
+        //     return res.status(400).json({err: true, msg: "O campo treino precisa ser preenchido!"})
+        // }
 
         let novoAluno = await AlunoModel.create({
             nome,
-            peso,
-            treinoId
+            peso
         })
 
         return res.status(200).json({resultado: novoAluno});
@@ -53,7 +52,8 @@ class AlunoController {
     }
 
     static async editarAluno(req,res){
-        let {id, nome, peso, treino} = req.body;
+        let {id} = req.params; 
+        let {nome, peso, treino} = req.body;
 
         if(!id){
             return res.status(400).json({
@@ -83,9 +83,13 @@ class AlunoController {
             })
         }
 
-        let alunoEncontrado = AlunoModel.findByPk(id);
+        let alunoEncontrado = await AlunoModel.findByPk(id);
 
-        alunoEncontrado.nome 
+        alunoEncontrado['nome'] = nome
+        alunoEncontrado['peso'] = peso
+        alunoEncontrado['treinoId'] = treino
+
+        await alunoEncontrado.save();
 
         return res.status(201).json({resultado: alunoEncontrado});
 
