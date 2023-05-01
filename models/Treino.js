@@ -1,7 +1,7 @@
 const db = require("../src/db");
 const { Sequelize } = require("sequelize");
 
-const Treino = db.define("Treino", {
+const Treino = db.define("treino", {
     treinoId: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull:false},
     tipo : {type: Sequelize.STRING, allowNull: false},
     series: {type: Sequelize.INTEGER, allowNull: false},

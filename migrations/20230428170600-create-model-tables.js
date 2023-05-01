@@ -6,7 +6,8 @@ module.exports = {
     await queryInterface.createTable("alunos", {
     id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull:false},
     nome: {type: Sequelize.STRING, allowNull: false},
-    peso: {type: Sequelize.FLOAT, allowNull: false},   
+    peso: {type: Sequelize.FLOAT, allowNull: false},
+    treinoId : {type: Sequelize.INTEGER, foreignKey: true}   
 },
 {timestamps: false})
 
@@ -16,22 +17,10 @@ module.exports = {
     series: {type: Sequelize.INTEGER, allowNull: false},
     repeticoes : {type: Sequelize.STRING, allowNull: false}
 },
-{timestamps: false})
-
-    await queryInterface.addColumn('Alunos', 'treinoId', {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Alunos',
-          key : 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-    })
-    
+{timestamps: false})    
 },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Alunos", "treinoId");
     await queryInterface.dropTable("alunos");
     await queryInterface.dropTable("treinos");
   }

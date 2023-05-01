@@ -3,7 +3,7 @@ const AlunoModel = require("../models/Aluno");
 class AlunoController {
     static async criarAluno(req, res)
     {
-        let {nome, peso} = req.body;
+        let {nome, peso, treinoId} = req.body;
 
         if(!nome){
             return res.status(400).json({err: true, msg: "O campo nome precisa ser preenchido!"})
@@ -11,13 +11,14 @@ class AlunoController {
         if(!peso){
             return res.status(400).json({err: true, msg: "O campo peso precisa ser preenchido!"})
         }
-        // if(!treinoId){
-        //     return res.status(400).json({err: true, msg: "O campo treino precisa ser preenchido!"})
-        // }
+        if(!treinoId){
+            return res.status(400).json({err: true, msg: "O campo treino precisa ser preenchido!"})
+        }
 
         let novoAluno = await AlunoModel.create({
             nome,
-            peso
+            peso,
+            treinoId
         })
 
         return res.status(200).json({resultado: novoAluno});
@@ -25,16 +26,16 @@ class AlunoController {
     } 
 
     static async deletarAluno(req, res) {
-        let {pk} = req.body;
+        let {id} = req.params;
         
-        if(!pk){
+        if(!id){
             return res.status(400).json({
                 erro: true,
                 msg: "O campo Id precisa ser preenchido"
             })
         }
 
-        let alunoEncontrado = await AlunoModel.findByPk(pk)
+        let alunoEncontrado = await AlunoModel.findByPk(id)
 
         if(!alunoEncontrado){
             return res.status(400).json({
@@ -53,7 +54,7 @@ class AlunoController {
 
     static async editarAluno(req,res){
         let {id} = req.params; 
-        let {nome, peso, treino} = req.body;
+        let {nome, peso, treinoId} = req.body;
 
         if(!id){
             return res.status(400).json({
@@ -76,7 +77,7 @@ class AlunoController {
             })
         }
 
-        if(!treino){
+        if(!treinoId){
             return res.status(400).json({
                 erro: true,
                 msg: "O campo Treino não pode ficar em branco!"
@@ -87,7 +88,7 @@ class AlunoController {
 
         alunoEncontrado['nome'] = nome
         alunoEncontrado['peso'] = peso
-        alunoEncontrado['treinoId'] = treino
+        alunoEncontrado['treinoId'] = treinoId
 
         await alunoEncontrado.save();
 

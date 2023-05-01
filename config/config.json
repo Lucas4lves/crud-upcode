@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "runrunrun64@",
-    "database": "crud_upcode",
+    "password": "Almostblue64@",
+    "database": "teste",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
