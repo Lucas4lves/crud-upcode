@@ -4,7 +4,7 @@ const TreinoModel = require("../models/Treino");
 class AlunoController {
     static async criarAluno(req, res)
     {
-        let {nome, peso, treinoId} = req.body;
+        let {nome, peso} = req.body;
 
         if(!nome){
             return res.status(400).json({err: true, msg: "O campo nome precisa ser preenchido!"})
@@ -12,14 +12,10 @@ class AlunoController {
         if(!peso){
             return res.status(400).json({err: true, msg: "O campo peso precisa ser preenchido!"})
         }
-        if(!treinoId){
-            return res.status(400).json({err: true, msg: "O campo treino precisa ser preenchido!"})
-        }
 
         let novoAluno = await AlunoModel.create({
             nome,
             peso,
-            treinoId
         })
 
         return res.status(200).json({resultado: novoAluno});
