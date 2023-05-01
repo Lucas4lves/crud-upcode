@@ -1,4 +1,5 @@
 const AlunoModel = require("../models/Aluno");
+const TreinoModel = require("../models/Treino");
 
 class AlunoController {
     static async criarAluno(req, res)
@@ -86,6 +87,14 @@ class AlunoController {
 
         let alunoEncontrado = await AlunoModel.findByPk(id);
 
+        if(!alunoEncontrado || alunoEncontrado.length <= 0)
+        {
+            return res.status(400).json({
+                erro: true,
+                msg: "Não foi possível encontrar um aluno com esse Id"
+            })
+        }
+
         alunoEncontrado['nome'] = nome
         alunoEncontrado['peso'] = peso
         alunoEncontrado['treinoId'] = treinoId
@@ -105,6 +114,22 @@ class AlunoController {
 
         return res.status(200).json({
             alunos
+        })
+    }
+
+    static async alunosTreino(req, res)
+    {
+        let join = await AlunoModel.findAll({include: TreinoModel});
+
+        if(!join || join.length <= 0)
+        {
+            return res.status(200).json({
+                msg: "Não foi possível encontrar um aluno com esse ID"
+            })
+        }
+
+        return res.status(200).json({
+            resultado: join
         })
     }
 }

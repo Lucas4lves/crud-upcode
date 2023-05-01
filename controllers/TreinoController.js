@@ -3,7 +3,7 @@ const TreinoModel = require("../models/Treino");
 class TreinoController {
 
     static async criarTreino(req, res){
-        let { tipo, series, repeticoes} = req.body;
+        let { tipo, series, repeticoes, AlunoId} = req.body;
 
         if(!tipo){
             return res.status(400).json({erro: true, msg: "O campo tipo não pode ficar em branco"});
@@ -20,7 +20,8 @@ class TreinoController {
         let novoTreino = await TreinoModel.create({
             tipo,
             series,
-            repeticoes
+            repeticoes,
+            AlunoId
         })
 
         return res.status(201).json({resultado: novoTreino});

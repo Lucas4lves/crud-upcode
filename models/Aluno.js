@@ -2,19 +2,15 @@ const db = require("../src/db");
 const { Sequelize } = require("sequelize");
 const Treino = require("./Treino");
 
-const Aluno = db.define("aluno", {
+const Aluno = db.define("Aluno", {
     id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull:false},
     nome: {type: Sequelize.STRING, allowNull: false},
     peso: {type: Sequelize.FLOAT, allowNull: false},
-    treinoId : {type: Sequelize.INTEGER, foreignKey: true}   
 },
 {timestamps: false}
 )
 
-Aluno.hasMany(Treino, {
-    foreignKey: 'treinoId'
-})
-
-// Treino.belongsTo(Aluno);
+Aluno.hasMany(Treino);
+Treino.belongsTo(Aluno);
 
 module.exports = Aluno;
